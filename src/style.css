@@ -1,6 +1,12 @@
 body {
 	margin: 0;
 	text-align: center;
+	background: #444;
+	color: #aaa;
+}
+
+a {
+	color: #ccc;
 }
 
 * {
