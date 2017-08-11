@@ -99,10 +99,14 @@ const fracturePath = (path, event) => {
   });
 };
 
+
+let svgDom = null;
+
 const breakEverything = () => {
+  const r = svgDom.getBoundingClientRect();
   [].concat(paths).filter((path) => path.dom).forEach((path) => {
-    const x = Math.random() * 800;
-    const y = Math.random() * 800;
+    const x = r.left + Math.random() * r.width;
+    const y = r.top + Math.random() * r.height;
     const event = {target: path.dom, clientX: x, clientY: y};
     fracturePath(path, event);
   });
@@ -124,11 +128,17 @@ setInterval(() => {
   m.redraw();
 }, 16);
 
+
 m.mount(document.body, {
   view() {
     const svg = m(
       'svg',
-      {width: 800, height: 800, style: 'cursor: pointer'},
+      {
+        width: 800,
+        height: 800,
+        style: 'cursor: pointer',
+        oncreate(vnode) { svgDom = vnode.dom; },
+      },
       paths.map(
         (path) => m('path',
           {
